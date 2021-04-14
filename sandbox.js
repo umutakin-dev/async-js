@@ -7,7 +7,7 @@ const getTodos = (resource) => {
                 const data = JSON.parse(request.responseText);
                 resolve(data);
             } else if (request.readyState === 4) {
-                reject('error getting resource');
+                reject("error getting resource");
             }
         });
 
@@ -16,32 +16,18 @@ const getTodos = (resource) => {
     });
 };
 
-getTodos('https://jsonplaceholder.typicode.com/todos/1').then(data => {
-    console.log('promise resolved', data);
-}).catch(err => {
-    console.log('promise rejected', err);
-})
-
-// promise
-
-// const getSomething = () => {
-
-//     return new Promise((resolve, reject) => {
-//         // fetch something
-//         resolve('some data');
-//         //reject('some error');
-//     });
-
-// };
-
-// getSomething().then((data) => {
-//     console.log(data);
-// }, (err) => {
-//     console.log(err);
-// });
-
-// getSomething().then(data => {
-//     console.log(data);
-// }).catch(err => {
-//     console.log(err);
-// })
+getTodos("https://jsonplaceholder.typicode.com/todos/1")
+    .then(data => {
+        console.log("promise 1 resolved", data);
+        return getTodos("https://jsonplaceholder.typicode.com/todos/2");
+    })
+    .then(data => {
+        console.log("promise 2 resolved", data);
+        return getTodos("https://jsonplaceholder.typicode.com/todos/3");
+    })
+    .then(data => {
+        console.log("promise 3 resolved", data);
+    })
+    .catch((err) => {
+        console.log("promise rejected", err);
+    });
